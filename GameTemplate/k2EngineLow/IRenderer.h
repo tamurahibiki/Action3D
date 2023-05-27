@@ -18,7 +18,6 @@ namespace nsK2EngineLow {
 		{
 
 		}
-
 		/// <summary>
 		/// フォント描画。
 		/// </summary>

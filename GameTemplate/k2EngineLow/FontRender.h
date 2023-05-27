@@ -178,4 +178,3 @@ namespace nsK2EngineLow {
 	};
 
 }
-

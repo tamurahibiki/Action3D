@@ -2,12 +2,14 @@
 #include "LightALL.h"
 #include "ShadowMapRender.h"
 #include "PostEffect.h"
+#include "Ssr.h"
 
 namespace nsK2EngineLow 
 {
-
+	
 	struct ModelRenderCB
 	{
+
 	public:
 		Light m_light;          // ライト
 		Matrix mlvp; // ライトビュープロジェクション行列。
@@ -18,10 +20,14 @@ namespace nsK2EngineLow
 	{
 	public:
 		void Init();
+		
+
 		void AddRenderObject(IRenderer* renderobj)
 		{
 			m_renderobject.push_back(renderobj);
 		}
+
+		void CreateGBuffer();
 
 		void Render2DDraw(RenderContext& rc);
 
@@ -43,13 +49,37 @@ namespace nsK2EngineLow
 			return m_modelRenderCB;
 		}
 
+		/*RenderTarget& GetDepthRenderTarget()
+		{
+			return m_depthRT;
+		}*/
+
+		/*RenderTarget& GetmainRenderTarget()
+		{
+			return m_mainRT;
+		}*/
+
+	private:
+		/// <summary>
+		/// G-Bufferの描画
+		/// </summary>
+		/// <remark>
+		/// この描画エンジンはフォワードレンダリングなのだが、
+		/// ポストエフェクトで法線テクスチャや深度テクスチャなどを利用するため、
+		/// G-Bufferの作成を行っている。
+		/// </remark>
+		void RenderGBuffer(RenderContext& rc);
 	private:
 		std::vector<IRenderer*> m_renderobject;
 		ShadowMapRender m_shadowMapRender;
 		PostEffect* m_postEffect = &g_postEffect;
 		ModelRenderCB m_modelRenderCB;
-		RenderTarget m_mainRenderTarget;
+		RenderTarget m_mainRT;
+		RenderTarget m_depthRT;
+		RenderTarget m_normalRT;
 
+		SpriteInitData spriteInitData;
+		Sprite g_bufferSpr;
 	};
 
 	extern RenderingEngine g_renderingEngine;

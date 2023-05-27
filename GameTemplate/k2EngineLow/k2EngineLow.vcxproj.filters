@@ -236,6 +236,7 @@
     <ClCompile Include="CollisionObject.cpp" />
     <ClCompile Include="SkyCube.cpp" />
     <ClCompile Include="FontRender.cpp" />
+    <ClCompile Include="Ssr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="k2EngineLowPreCompile.h" />
@@ -518,6 +519,7 @@
     <ClInclude Include="CollisionObject.h" />
     <ClInclude Include="SkyCube.h" />
     <ClInclude Include="FontRender.h" />
+    <ClInclude Include="Ssr.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">

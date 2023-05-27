@@ -124,7 +124,7 @@ namespace
 	const Vector2 ATCSPRITEPIVOT = { 0.0f, 0.5f };           //アイコン、制限時間、クリア画像のピボット
 	const Vector3 AICONSPRITEPOS = { -800.0f, 370.0f, 0.0f };//アイコン画像の座標
 	const Vector3 TIMERSPRITEPOS = { 550.0f, 385.0f, 0.0f }; //制限時間画像の座標
-	const Vector3 CLEARSPRITEPOS = { -400.0f, 100.0f, 0.0f };//クリア画像の座標
+	const Vector3 CLEARSPRITEPOS = { -500.0f, 100.0f, 0.0f };//クリア画像の座標
 	//////////////////////////////////////
 	////画像の定数を定義するのはここまで。
 	//////////////////////////////////////
@@ -154,7 +154,7 @@ namespace
 	////フォント関係の定数を定義するのはここまで。
 	//////////////////////////////////////
 }
-
+namespace App {
 Player::Player(){}
 Player::~Player() 
 {
@@ -169,7 +169,7 @@ bool Player::Start()
 	//アニメーションを読み込む。
 	InitAnimation();
 	//モデルを読み込む。
-	m_modelRender.Init("Assets/modelData/player/Player.tkm", false, m_animClips, enAnimationCilp_Num);
+	m_modelRender.Init("Assets/modelData/player/Player.tkm", false, false, m_animClips, enAnimationCilp_Num);
 	//中間地点に到達しているなら
 	if (m_game->Try == true)
 	{
@@ -233,6 +233,7 @@ void Player::Update()
 		m_game->Retry();
 		return;
 	}
+	
 	//UI表示開始タイマーが2.0秒以下なら
 	if (m_UITime < UITIMEMAX)
 	{
@@ -306,6 +307,7 @@ void Player::Update()
 	ManageState();
 	//アニメーションの再生。
 	PlayAnimation();
+
 	//モデルの更新。
 	m_modelRender.Update();
 }
@@ -894,8 +896,8 @@ void Player::Rotation()
 }
 void Player::Collision()
 {
-	//ヒップドロップ中、大砲移動中なら
-	if (Drop == true||Fort_Idle==true||Fort_Move==true)
+	//ヒップドロップ中、大砲移動中,ゴール処理中なら
+	if (Drop == true||Fort_Idle==true||Fort_Move==true||Goal==true)
 	{
 		//処理しない。
 		return;
@@ -981,7 +983,7 @@ void Player::ProcessCommonStateTransition()
 		return;
 	}
 	//ブロックの上に乗っていて、左スティックの操作がされているなら
-	if (OnBlock == true&&Stick==true)
+	if (OnBlock == true)
 	{
 		//移動ステートの処理を行う。
 		Move_Common();
@@ -1058,16 +1060,16 @@ void Player::ProcessGoalStateTransition()
 }
 void Player::ProcessGoal2StateTransition()
 {
-	//Aボタンを押していたら
-	if (g_pad[0]->IsPress(enButtonA))
-	{
-		//ゴール後の処理を行う。
-		m_game->Retry();
-	}
-	/*if (m_modelRender.IsPlayingAnimation() == false)
+	////Aボタンを押していたら
+	//if (g_pad[0]->IsPress(enButtonA))
+	//{
+	//	//ゴール後の処理を行う。
+	//	m_game->Retry();
+	//}
+	if (m_modelRender.IsPlayingAnimation() == false)
 	{
 		m_game->Retry();	
-	}*/
+	}
 }
 void Player::ProcessDeadStateTransition()
 {
@@ -1593,6 +1595,26 @@ void Player::Drop_EndEffect()
 	//エフェクトを再生する。
 	m_effectEmitter->Play();
 }
+void Player::RainEffect()
+{
+	//エフェクトのオブジェクトを作成する。
+	m_effectEmitter = NewGO <EffectEmitter>(0);
+	m_effectEmitter->Init(m_effectlist->RAIN);
+	//座標を設定する。
+	Vector3 effectPosition = m_position;
+	effectPosition.y += 1000.0f;
+	m_effectEmitter->SetPosition(effectPosition);
+	//回転を設定する。
+	if (RainRotation == true)
+	{
+	//	m_effectEmitter->SetRotation(m_rotation);
+		RainRotation = false;
+	}
+	//大きさを設定する。
+	m_effectEmitter->SetScale({ 100.0f,100.0f,100.0f });
+	//エフェクトを再生する。
+	m_effectEmitter->Play();
+}
 void Player::ClearEffect()
 {
 	//エフェクトのオブジェクトを作成する。
@@ -1654,4 +1676,5 @@ void Player::HipCollision()
 		HIPCOLLISIONSCALE);
 	//名前をHipにする。
 	HipCollision->SetName("Hip");
+}
 }

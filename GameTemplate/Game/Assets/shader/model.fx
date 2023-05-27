@@ -84,7 +84,19 @@ struct SPSIn
     float4 posInLVP : TEXCOORD3; // ライトビュースクリーン空間でのピクセルの座標
 
     float distToEye : TEXCOORD4; //視点との距離
+
+    float3 depthInView : TEXCOORD5;
 };
+
+
+// ピクセルシェーダーからの出力
+struct SPSOut
+{
+    float4 color:SV_Target0;
+    float depth : SV_Target1; //深度
+    float3 normal : SV_Target2; // 法線
+};
+
 ///////////////////////////////////////////
 // 関数宣言
 ///////////////////////////////////////////
@@ -94,8 +106,6 @@ float3 CalcLigFromPointLight(SPSIn psIn);
 float3 CalcLigFromDirectionLight(SPSIn psIn);
 float3 CalcLigFromSpotLight(SPSIn psIn);
 float3 CalcRimLight(SPSIn psIn, float3 lightdirection, float3 lightcolor);
-
-
 ////////////////////////////////////////////////
 // グローバル変数。
 ////////////////////////////////////////////////
@@ -105,6 +115,8 @@ Texture2D<float4> g_specularMap : register(t2);
 StructuredBuffer<float4x4> g_boneMatrix : register(t3); //ボーン行列。
 Texture2D<float4> g_shadowMap : register(t10); // シャドウマップ
 sampler g_sampler : register(s0); //サンプラステート。
+
+//ディザパターンの定義
 static const int pattern[4][4] =
 {
     { 0, 32, 8, 40 },
@@ -151,16 +163,16 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
     {
         m = mWorld;
     }
+   
     psIn.pos = mul(m, vsIn.pos);
     psIn.worldPos = psIn.pos;
     psIn.pos = mul(mView, psIn.pos);
+    psIn.depthInView = psIn.pos.z;
     psIn.pos = mul(mProj, psIn.pos);
     // 頂点法線をピクセルシェーダーに渡す。
     psIn.normal = normalize(mul(m, vsIn.normal)); //法線を回転させる。
-
     psIn.tangent = normalize(mul(m, vsIn.tangent));
     psIn.biNormal = normalize(mul(m, vsIn.biNormal));
-    //psIn.uv = vsIn.uv * 3.5f;
     psIn.uv = vsIn.uv;
 
     //カメラ空間の法線を求める。
@@ -380,21 +392,19 @@ float3 CalcRimLight(SPSIn psIn, float3 direction, float3 color)
 /// <summary>
 /// ピクセルシェーダーのエントリー関数。
 /// </summary>
-float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
+float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive)
 {
-
-
+   
     // ポイントライトによるライティングを計算する
     float3 pointLig = CalcLigFromPointLight(psIn);
 
     //スポットライトによるライティングを計算する。
     float3 spotLig = CalcLigFromSpotLight(psIn);
 
-
-
     float4 color = g_albedo.Sample(g_sampler, psIn.uv);
-
-    float3 normal = psIn.normal;
+   
+    float3 normal = psIn.normal; 
+    //float3 normal = g_normalMap.Sample(g_sampler, psIn.normal);
 
     //法線マップからタンジェントスペースの法線をサンプリングする
     float3 localNormal = g_normalMap.Sample(g_sampler, psIn.uv).xyz;
@@ -419,21 +429,21 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive) : SV_Target0
 
 
    // step-6 ライトビュースクリーン空間からUV空間に座標変換
-// 【注目】ライトビュースクリーン空間からUV座標空間に変換している
-float2 posInLVP = psIn.posInLVP.xy / psIn.posInLVP.w;
-float2 shadowMapUV = posInLVP;
-shadowMapUV *= float2(0.5f, -0.5f);
-shadowMapUV += 0.5f;
-//ライトビュースクリーン空間でのZ値を計算する
-float zInLVP = psIn.posInLVP.z / psIn.posInLVP.w;
+   // 【注目】ライトビュースクリーン空間からUV座標空間に変換している
+   float2 posInLVP = psIn.posInLVP.xy / psIn.posInLVP.w;
+   float2 shadowMapUV = posInLVP;
+   shadowMapUV *= float2(0.5f, -0.5f);
+   shadowMapUV += 0.5f;
+   //ライトビュースクリーン空間でのZ値を計算する
+   float zInLVP = psIn.posInLVP.z / psIn.posInLVP.w;
 
-// step-7 UV座標を使ってシャドウマップから影情報をサンプリング
-float3 shadowMap = 1.0f;
+   // step-7 UV座標を使ってシャドウマップから影情報をサンプリング
+   float3 shadowMap = 1.0f;
 
-if (shadowMapUV.x > 0.0f && shadowMapUV.x < 1.0f
-    && shadowMapUV.y > 0.0f && shadowMapUV.y < 1.0f
-    && psIn.normal.y > 0.1f)
-{
+   if (shadowMapUV.x > 0.0f && shadowMapUV.x < 1.0f
+       && shadowMapUV.y > 0.0f && shadowMapUV.y < 1.0f
+       && psIn.normal.y > 0.1f)
+   {
     // step-3 シャドウマップに描き込まれているZ値と比較する
     // 計算したUV座標を使って、シャドウマップから深度値をサンプリング
     float zInShadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV).r;
@@ -442,21 +452,22 @@ if (shadowMapUV.x > 0.0f && shadowMapUV.x < 1.0f
         // 遮蔽されている
         shadowMap.xyz *= lerp(0.5f, 1.0f, saturate(length(posInLVP.xy)));
     }
-}
+   }
 
-
-float3 lig = 0.0f;
-lig += max(0.0f, dot(normal, -directionlight.dirDirection)) * directionlight.dirColor;
-lig += max(0.0f, dot(normal, -dirLig2)) * directionlight.dirColor * 0.2f;
-lig /= 3.1415926f;
+   float3 lig = 0.0f;
+   lig += max(0.0f, dot(normal, -directionlight.dirDirection)) * directionlight.dirColor;
+   lig += max(0.0f, dot(normal, -dirLig2)) * directionlight.dirColor * 0.2f;
+   lig /= 3.1415926f;
     
-lig += +pointLig
-       + spotLig
-       + specLig
-       + ambientLight;
+   lig += +pointLig
+          + spotLig
+          + specLig
+          + ambientLight;
 
-
+   // 遮蔽されている
    float4 albedoColor = color;
+
+   
    albedoColor.xyz *= lig;
 
    if (shadowreceive == true)
@@ -466,6 +477,7 @@ lig += +pointLig
 
    return albedoColor;
 }
+
 // モデル用のピクセルシェーダーのエントリーポイント
 float4 PSMain(SPSIn psIn) : SV_Target0
 {
@@ -475,3 +487,38 @@ float4 PSMainShadowReciever(SPSIn psIn) : SV_Target0
 {
     return PSMainCore(psIn, true);
 }
+
+/// <summary>
+/// モデル用のピクセルシェーダーのエントリーポイント
+/// </summary>
+SPSOut PSMainCoreG(SPSIn psIn)
+{
+    // step-6 G-Bufferに出力
+    SPSOut psOut;
+
+   // psOut.color = PSMainCore(psIn,false);
+
+    psOut.depth = psIn.depthInView;
+    
+    // 法線を出力
+    psOut.normal = psIn.normal;
+    //psOut.normal = float4(psIn.normal.x, psIn.normal.y, psIn.normal.z, 1.0f);
+    //psOut.normal = g_normalMap.Sample(g_sampler, psIn.normal);
+    return psOut;
+}
+
+
+//SPSOut PSMainShadowRecieverG(SPSIn psIn)
+//{
+//    SPSOut psOut;
+//
+//   // psOut.color = PSMainCore(psIn, true);
+//
+//    psOut.depth = psIn.depthInView;
+//
+//    // 法線を出力
+//    psOut.normal = psIn.normal;
+//    //psOut.normal = float4(psIn.normal.x, psIn.normal.y, psIn.normal.z, 1.0f);
+//    //psOut.normal = g_normalMap.Sample(g_sampler, psIn.normal);
+//    return psOut;
+//}

@@ -3,12 +3,14 @@
 /// <summary>
 /// ‘ƒNƒ‰ƒX
 /// </summary>
-class Grass :public IBgActor
-{
-public:
-	Grass();
-	~Grass();
-	bool Start();
-	void Update();
-	void Render(RenderContext& rc);
-};
+namespace App {
+	class Grass :public IBgActor
+	{
+	public:
+		Grass();
+		~Grass();
+		bool Start();
+		void Update();
+		void Render(RenderContext& rc);
+	};
+}

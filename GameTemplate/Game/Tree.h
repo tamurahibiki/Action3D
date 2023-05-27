@@ -3,12 +3,14 @@
 /// <summary>
 /// –ØƒNƒ‰ƒX
 /// </summary>
-class Tree :public IBgActor
-{
-public:
-	Tree();
-	~Tree();
-	bool Start();
-	void Update();
-	void Render(RenderContext& rc);
-};
+namespace App {
+	class Tree :public IBgActor
+	{
+	public:
+		Tree();
+		~Tree();
+		bool Start();
+		void Update();
+		void Render(RenderContext& rc);
+	};
+}

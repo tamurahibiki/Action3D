@@ -34,81 +34,82 @@ namespace nsK2EngineLow {
 				m_numAnimationClips);
 		}
 	}
-	void ModelRender::InitModel(const char* filePath)
-	{
-		// step-1 半透明のモデルを初期化
-		transModelInitData.m_tkmFilePath = filePath;
-		transModelInitData.m_fxFilePath = "Assets/shader/model.fx";
-		// 半透明モデルはモデルを描くときにライティングを行うので、ライトの情報を渡す。
-		transModelInitData.m_expandConstantBuffer = &g_Light.GetLight();
-		transModelInitData.m_expandConstantBufferSize = sizeof(g_Light.GetLight());
-		// ピクセルシェーダのエントリーポイントが不透明モデルとは異なる。
-		// 不透明モデルはPSMain、半透明モデルはPSMainTransを使用する。
-		// ピクセルシェーダの実装は後で確認。
-        //transModelInitData.m_psEntryPointFunc = "PSMainTrans";
+	//void ModelRender::InitModel(const char* filePath)
+	//{
+	//	// step-1 半透明のモデルを初期化
+	//	transModelInitData.m_tkmFilePath = filePath;
+	//	transModelInitData.m_fxFilePath = "Assets/shader/model.fx";
+	//	// 半透明モデルはモデルを描くときにライティングを行うので、ライトの情報を渡す。
+	//	transModelInitData.m_expandConstantBuffer = &g_Light.GetLight();
+	//	transModelInitData.m_expandConstantBufferSize = sizeof(g_Light.GetLight());
+	//	// ピクセルシェーダのエントリーポイントが不透明モデルとは異なる。
+	//	// 不透明モデルはPSMain、半透明モデルはPSMainTransを使用する。
+	//	// ピクセルシェーダの実装は後で確認。
+ //       //transModelInitData.m_psEntryPointFunc = "PSMainTrans";
 
-		//【重要】半透明合成。
-		transModelInitData.m_alphaBlendMode = AlphaBlendMode_Trans;
-		// 半透明の球体モデルを初期化。
-		sphereModel.Init(transModelInitData);
-	}
+	//	//【重要】半透明合成。
+	//	transModelInitData.m_alphaBlendMode = AlphaBlendMode_Trans;
+	//	// 半透明の球体モデルを初期化。
+	//	sphereModel.Init(transModelInitData);
+	//}
 
 
-	void ModelRender::InitForwardRendering(ModelInitData& initData)
-	{
-		//インスタンシング描画用のデータを初期化。
-		InitInstancingDraw(1);
-		InitSkeleton(initData.m_tkmFilePath);
+	//void ModelRender::InitForwardRendering(ModelInitData& initData)
+	//{
+	//	//インスタンシング描画用のデータを初期化。
+	//	InitInstancingDraw(1);
+	//	InitSkeleton(initData.m_tkmFilePath);
 
-		// todo アニメーション済み頂点バッファの計算処理を初期化。
-		//InitComputeAnimatoinVertexBuffer(initData.m_tkmFilePath, initData.m_modelUpAxis);
+	//	// todo アニメーション済み頂点バッファの計算処理を初期化。
+	//	//InitComputeAnimatoinVertexBuffer(initData.m_tkmFilePath, initData.m_modelUpAxis);
 
-		initData.m_colorBufferFormat[0] = DXGI_FORMAT_R16G16B16A16_FLOAT;
-		//作成した初期化データをもとにモデルを初期化する。
-		m_forwardRenderModel.Init(initData);
-		//ZPrepass描画用のモデルを初期化。
-		//InitModelOnZprepass(*g_renderingEngine, initData.m_tkmFilePath, initData.m_modelUpAxis);
-		//シャドウマップ描画用のモデルを初期化。
-		//Init(*g_renderingEngine, initData.m_tkmFilePath, initData.m_modelUpAxis, false);
-		// 幾何学データを初期化。
-		//InitGeometryDatas(1);
-		// レイトレワールドに追加。
-		// g_renderingEngine->AddModelToRaytracingWorld(m_forwardRenderModel);
-		// m_addRaytracingWorldModel = &m_forwardRenderModel;
-		// 各種ワールド行列を更新する。
-		//UpdateWorldMatrixInModes();
-	}
+	//	initData.m_colorBufferFormat[0] = DXGI_FORMAT_R16G16B16A16_FLOAT;
+	//	//作成した初期化データをもとにモデルを初期化する。
+	//	m_forwardRenderModel.Init(initData);
+	//	//ZPrepass描画用のモデルを初期化。
+	//	//InitModelOnZprepass(*g_renderingEngine, initData.m_tkmFilePath, initData.m_modelUpAxis);
+	//	//シャドウマップ描画用のモデルを初期化。
+	//	//Init(*g_renderingEngine, initData.m_tkmFilePath, initData.m_modelUpAxis, false);
+	//	// 幾何学データを初期化。
+	//	//InitGeometryDatas(1);
+	//	// レイトレワールドに追加。
+	//	// g_renderingEngine->AddModelToRaytracingWorld(m_forwardRenderModel);
+	//	// m_addRaytracingWorldModel = &m_forwardRenderModel;
+	//	// 各種ワールド行列を更新する。
+	//	//UpdateWorldMatrixInModes();
+	//}
 
-	void ModelRender::modelUpdate()
+	/*void ModelRender::modelUpdate()
 	{
 		sphereModel.UpdateWorldMatrix(planePos, g_quatIdentity, g_vec3One);
-	}
+	}*/
 	
-	void ModelRender::InitInstancingDraw(int maxInstance)
-	{
-		m_maxInstance = maxInstance;
-		if (m_maxInstance > 1) {
-			// インスタンシング描画を行うので、
-			// それ用のデータを構築する。
-			// ワールド行列の配列のメモリを確保する。
-			m_worldMatrixArray = std::make_unique<Matrix[]>(m_maxInstance);
-			// ワールド行列をGPUに転送するためのストラクチャードバッファを確保。
-			m_worldMatrixArraySB.Init(
-				sizeof(Matrix),
-				m_maxInstance,
-				nullptr
-			);
-			m_isEnableInstancingDraw = true;
-			// インスタンス番号からワールド行列の配列のインデックスに変換するテーブルを初期化する。
-			m_instanceNoToWorldMatrixArrayIndexTable = std::make_unique<int[]>(m_maxInstance);
-			for (int instanceNo = 0; instanceNo < m_maxInstance; instanceNo++) {
-				m_instanceNoToWorldMatrixArrayIndexTable[instanceNo] = instanceNo;
-			}
-		}
-	}
+	//void ModelRender::InitInstancingDraw(int maxInstance)
+	//{
+	//	m_maxInstance = maxInstance;
+	//	if (m_maxInstance > 1) {
+	//		// インスタンシング描画を行うので、
+	//		// それ用のデータを構築する。
+	//		// ワールド行列の配列のメモリを確保する。
+	//		m_worldMatrixArray = std::make_unique<Matrix[]>(m_maxInstance);
+	//		// ワールド行列をGPUに転送するためのストラクチャードバッファを確保。
+	//		m_worldMatrixArraySB.Init(
+	//			sizeof(Matrix),
+	//			m_maxInstance,
+	//			nullptr
+	//		);
+	//		m_isEnableInstancingDraw = true;
+	//		// インスタンス番号からワールド行列の配列のインデックスに変換するテーブルを初期化する。
+	//		m_instanceNoToWorldMatrixArrayIndexTable = std::make_unique<int[]>(m_maxInstance);
+	//		for (int instanceNo = 0; instanceNo < m_maxInstance; instanceNo++) {
+	//			m_instanceNoToWorldMatrixArrayIndexTable[instanceNo] = instanceNo;
+	//		}
+	//	}
+	//}
 
 	void ModelRender::Init( const char* filePath,
 		bool shadowRecieve,
+		bool ssrRecieve,
 		AnimationClip* animationClips,
 		int numAnimationClips,
 		EnModelUpAxis enModelUpAxis,
@@ -146,6 +147,7 @@ namespace nsK2EngineLow {
 		{
 			m_isShadowCaster = true;
 		}
+		
 		initData.m_expandShaderResoruceView[0] = &g_renderingEngine.GetShadowMap();
 		initData.m_tkmFilePath = filePath;
 		
@@ -222,6 +224,7 @@ namespace nsK2EngineLow {
 		ShadowModelInitData.m_modelUpAxis = modelUpAxis;
 		m_shadowmodel.Init(ShadowModelInitData);
 	}
+	
 	void ModelRender::OnRenderShadowMap(RenderContext& rc,const Matrix& lvpMatrix)
 	{
 		if (m_isShadowCaster)
@@ -232,4 +235,5 @@ namespace nsK2EngineLow {
 				lvpMatrix);
 		}
 	}
+
 }

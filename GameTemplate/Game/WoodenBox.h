@@ -1,14 +1,16 @@
 #pragma once
 #include "IBgActor.h"
-/// <summary>
-/// 木箱クラス
-/// </summary>
-class WoodenBox :public IBgActor
-{
-public:
-	WoodenBox();
-	~WoodenBox();
-	bool Start();
-	void Update();
-	void Render(RenderContext& rc);
-};
+namespace App {
+	/// <summary>
+	/// 木箱クラス
+	/// </summary>
+	class WoodenBox :public IBgActor
+	{
+	public:
+		WoodenBox();
+		~WoodenBox();
+		bool Start();
+		void Update();
+		void Render(RenderContext& rc);
+	};
+}

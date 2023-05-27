@@ -10,8 +10,6 @@ namespace nsK2EngineLow {
         float pad;
         Vector3 dirColor;
         float pad1;
-
-        
     public:
         const Vector3& GetDirection()const
         {
@@ -43,7 +41,6 @@ namespace nsK2EngineLow {
         float pad;
         Vector3 eyePos;
         float pad2;
-       
     };
 
     class LightALL
@@ -52,9 +49,7 @@ namespace nsK2EngineLow {
         LightALL() {}
         ~LightALL();
         void Update();
-        
         void Init();
-
 
         /// <summary>
         /// ディレクションライトの方向。
@@ -72,16 +67,14 @@ namespace nsK2EngineLow {
         {
             m_light.directionlight.dirColor = color;
         }
-
         /// <summary>
-            /// 環境光を設定する。
-            /// </summary>
-            /// <param name="col">カラー。</param>
+        /// 環境光を設定する。
+        /// </summary>
+        /// <param name="col">カラー。</param>
         void SetAmbientLight(const Vector3& col)
         {
             m_light.ambientLight = col;
         }
-
 
         /// <summary>
          /// ポイントライトの場所。
@@ -108,7 +101,6 @@ namespace nsK2EngineLow {
             m_light.pointlight.ptRange = range;
         }
 
-
         /// <summary>
          /// スポットライトの回転。
          /// </summary>
@@ -134,7 +126,6 @@ namespace nsK2EngineLow {
             m_light.spotlight.spColor = color;
         }
 
-
         /// <summary>
         /// 視点のポジションを設定する。
         /// </summary>
@@ -144,27 +135,20 @@ namespace nsK2EngineLow {
             m_light.eyePos = pos;
         }
 
-
-
-
         const Vector4& GetDirectionLightDirection()const
         {
             return m_light.directionlight.GetDirection();
         }
-
 
         Light& GetLight()
         {
             return m_light;
         }
 
-
         const Vector3& GetAmbientLight()
         {
             return m_light.ambientLight;
         }
-
-
     private:
         Light               m_light;  //シーンライト。
 

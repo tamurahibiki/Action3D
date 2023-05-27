@@ -10,6 +10,7 @@ namespace nsK2EngineLow {
 		void Init(
 			const char* filePath,
 			bool shadowRecieve,
+			bool ssrRecieve,
 			AnimationClip* animationClips = nullptr,
 			int numAnimationClips = 0,
 			EnModelUpAxis enModelUpAxis = enModelUpAxisZ,
@@ -169,15 +170,16 @@ namespace nsK2EngineLow {
 			const char* tkmFilePath,
 			EnModelUpAxis modelUpAxis);
 
+	
 		void OnRenderShadowMap(
 			RenderContext& rc,
 			const Matrix& lvpMatrix
 		);
 
-
 	private:
 		Model						m_model;
 		Model                       m_shadowmodel;
+		Model                       m_ssrmodel;
 		Model						m_forwardRenderModel;				// フォワードレンダリングの描画パスで描画されるモデル
 		Skeleton                    m_skeleton;
 		float                       m_animationSpeed = 1.0f;
@@ -196,6 +198,7 @@ namespace nsK2EngineLow {
 		StructuredBuffer			m_worldMatrixArraySB;				// ワールド行列の配列のストラクチャードバッファ。
 		EnModelUpAxis               m_enFbxUpAxis = enModelUpAxisZ;
 		bool                        m_isShadowCaster = true;
+		bool                        m_isSsrCaster = true;
 		std::unique_ptr<int[]>		m_instanceNoToWorldMatrixArrayIndexTable;	// インスタンス番号からワールド行列の配列のインデックスに変換するテーブル。
 		
 	};

@@ -3,6 +3,8 @@ cbuffer cb : register(b0){
 	float4x4 mvp;		//MVP行列
 	float4 mulColor;	//乗算カラー
 };
+
+
 struct VSInput{
 	float4 pos : POSITION;
 	float2 uv  : TEXCOORD0;
@@ -28,5 +30,4 @@ float4 PSMain(PSInput In) : SV_Target0
 	float4 color = colorTexture.Sample(Sampler,In.uv);
 
 	return color;
-
 }

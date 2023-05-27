@@ -20,9 +20,10 @@ namespace nsK2EngineLow
 		{
 			return m_lightCamera;
 		}
+		Camera m_lightCamera;
 	private:
 		RenderTarget shadowMap;
-		Camera m_lightCamera;
+
 	};
 }
 

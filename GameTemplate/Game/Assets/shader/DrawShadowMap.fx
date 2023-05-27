@@ -110,6 +110,5 @@ SPSIn VSSkinMain(SVSIn vsIn)
 float4 PSMain(SPSIn psIn) : SV_Target0
 {
  // step-5 シャドウマップ描画用のピクセルシェーダーを作成する
-    //return float4(psIn.depth.x, psIn.depth.y, 0.0f, 1.0f);
     return float4(psIn.pos.z, psIn.pos.z, psIn.pos.z, 1.0f);
 }

@@ -3,13 +3,14 @@
 /// <summary>
 /// フェンスクラス
 /// </summary>
-class Fence :public IBgActor
-{
-public:
-	Fence();
-	~Fence();
-	bool Start();
-	void Update();
-	void Render(RenderContext& rc);
-};
-
+namespace App {
+	class Fence :public IBgActor
+	{
+	public:
+		Fence();
+		~Fence();
+		bool Start();
+		void Update();
+		void Render(RenderContext& rc);
+	};
+}
