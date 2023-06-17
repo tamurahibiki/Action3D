@@ -23,43 +23,51 @@ namespace nsK2EngineLow
 	void RenderingEngine::CreateGBuffer()
 	{
 		// 深度テクスチャー書き込み用のレンダーターゲット
-		m_depthRT.Create(
+		m_gBuffer[enGBufferDepth].Create(
 			1600,
 			900,
 			1,
 			1,
 			DXGI_FORMAT_R32_FLOAT,
-			DXGI_FORMAT_UNKNOWN
+			DXGI_FORMAT_D32_FLOAT
 		);
-
 		// 法線テクスチャ書き込み用のレンダーターゲット
-		m_normalRT.Create(
+		m_gBuffer[enGBufferNormal].Create(
 			1600,
 			900,
 			1,
 			1,
-			DXGI_FORMAT_R32G32B32A32_FLOAT,
-			DXGI_FORMAT_UNKNOWN
+			DXGI_FORMAT_R8G8B8A8_UNORM,
+			DXGI_FORMAT_D32_FLOAT
+		);
+		//メタリックスムーステクスチャ書き込み用のレンダーターゲット
+		m_gBuffer[enGBufferMetallicSmooth].Create(
+			1600,
+			900,
+			1,
+			1,
+			DXGI_FORMAT_R8G8B8A8_UNORM,
+			DXGI_FORMAT_D32_FLOAT
 		);
 	}
 	void RenderingEngine::RenderGBuffer(RenderContext& rc)
 	{
 		RenderTarget* rts[]
 		{
-			&m_depthRT,
-			&m_normalRT
+			&m_gBuffer[enGBufferDepth],         // 0番目のレンダリングターゲット
+			&m_gBuffer[enGBufferNormal],         // 1番目のレンダリングターゲット
+			&m_gBuffer[enGBufferMetallicSmooth]
 		};
-		rc.WaitUntilToPossibleSetRenderTargets(2, rts);
-
-		rc.SetRenderTargets(2, rts);
-
-		rc.ClearRenderTargetViews(2, rts);
-
-		//モデルのドローはg_engine->ExecuteRender();
-		g_engine->ExecuteRender();
-
-		rc.WaitUntilFinishDrawingToRenderTargets(2, rts);
-
+		
+		rc.WaitUntilToPossibleSetRenderTargets(3, rts);
+		rc.SetRenderTargets(3, rts);
+		rc.ClearRenderTargetViews(3, rts);
+		
+		for (auto& model : m_renderobject)
+		{
+			model->OnRenderToGBuffer(rc);
+		}
+		rc.WaitUntilFinishDrawingToRenderTargets(3, rts);
 	}
 
 	void RenderingEngine::Execute(RenderContext& rc)
@@ -70,13 +78,13 @@ namespace nsK2EngineLow
 		
 		// ゲームオブジェクトマネージャーの描画処理を呼び出す。
 		g_engine->ExecuteRender();
-
+		
 		ShadowMapDraw(rc);
 
 		RenderGBuffer(rc);
-
+		
 		m_postEffect->Render(rc);
-
+	
 		Render2DDraw(rc);
 		m_renderobject.clear();
 	}
@@ -86,6 +94,6 @@ namespace nsK2EngineLow
 		m_shadowMapRender.Init();
 		CreateGBuffer();
 		m_modelRenderCB.m_light = g_Light.GetLight();
-		m_modelRenderCB.mlvp = GetLightCamera().GetViewProjectionMatrix();	
+		m_modelRenderCB.mlvp = GetLightCamera().GetViewProjectionMatrix();
 	}
 }

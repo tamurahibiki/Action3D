@@ -32,255 +32,261 @@
     <ClCompile Include="system\system.cpp">
       <Filter>system</Filter>
     </ClCompile>
-    <ClCompile Include="Title.cpp">
-      <Filter>OutGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Green.cpp">
-      <Filter>InGame\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Red.cpp">
-      <Filter>InGame\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Yellow.cpp">
-      <Filter>InGame\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="IEnemy.cpp">
-      <Filter>InGame\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Block.cpp">
-      <Filter>InGame\Gimmick</Filter>
-    </ClCompile>
-    <ClCompile Include="Fort.cpp">
-      <Filter>InGame\Gimmick</Filter>
-    </ClCompile>
-    <ClCompile Include="FortTop.cpp">
-      <Filter>InGame\Gimmick</Filter>
-    </ClCompile>
-    <ClCompile Include="GroundMove.cpp">
-      <Filter>InGame\Gimmick</Filter>
-    </ClCompile>
-    <ClCompile Include="Shell.cpp">
-      <Filter>InGame\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Player_Head.cpp">
-      <Filter>InGame\Gimmick</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>InGame\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Bard.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="Fence.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="FenceHalf.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="Flower.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="FlowerBed.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="GoalPoint.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="Grass.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="Ground.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="GroundRoad.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="IBgActor.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="Pebble.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="Pipe.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="Ring.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="Rock_Big.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="Shrub.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="Signboard.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="Stairs.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="Tree.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="Windmill.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="Wood_Road.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="WoodenBox.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="Default.cpp">
-      <Filter>InGame\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Forward.cpp">
-      <Filter>InGame\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="GameCamera.cpp">
-      <Filter>InGame\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Fade.cpp">
-      <Filter>OutGame</Filter>
-    </ClCompile>
-    <ClCompile Include="HitBox.cpp">
-      <Filter>InGame\Bg</Filter>
-    </ClCompile>
-    <ClCompile Include="IActor.cpp">
-      <Filter>InGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>InGame</Filter>
-    </ClCompile>
     <ClCompile Include="EffectList.cpp" />
     <ClCompile Include="SoundList.cpp" />
+    <ClCompile Include="InGame\Bg\Bard.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\Fence.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\FenceHalf.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\Flower.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\FlowerBed.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\GoalPoint.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\Grass.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\Ground.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\GroundRoad.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\HitBox.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\IBgActor.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\Pebble.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\Pipe.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\Puddle.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\Ring.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\Rock_Big.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\Shrub.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\Signboard.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\Stairs.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\Tree.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\Windmill.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\Wood_Road.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Bg\WoodenBox.cpp">
+      <Filter>InGame\Bg</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Camera\Default.cpp">
+      <Filter>InGame\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Camera\Forward.cpp">
+      <Filter>InGame\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Camera\GameCamera.cpp">
+      <Filter>InGame\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Enemy\Enemy_Green.cpp">
+      <Filter>InGame\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Enemy\Enemy_Red.cpp">
+      <Filter>InGame\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Enemy\Enemy_Yellow.cpp">
+      <Filter>InGame\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Enemy\IEnemy.cpp">
+      <Filter>InGame\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Enemy\Shell.cpp">
+      <Filter>InGame\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Gimmick\Block.cpp">
+      <Filter>InGame\Gimmick</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Gimmick\Fort.cpp">
+      <Filter>InGame\Gimmick</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Gimmick\FortTop.cpp">
+      <Filter>InGame\Gimmick</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Gimmick\GroundMove.cpp">
+      <Filter>InGame\Gimmick</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Gimmick\Player_Head.cpp">
+      <Filter>InGame\Gimmick</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Player\Player.cpp">
+      <Filter>InGame\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\Game.cpp">
+      <Filter>InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="InGame\IActor.cpp">
+      <Filter>InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="OutGame\Fade.cpp">
+      <Filter>OutGame</Filter>
+    </ClCompile>
+    <ClCompile Include="OutGame\Title.cpp">
+      <Filter>OutGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h">
       <Filter>system</Filter>
     </ClInclude>
-    <ClInclude Include="Title.h">
-      <Filter>OutGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Green.h">
-      <Filter>InGame\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Red.h">
-      <Filter>InGame\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Yellow.h">
-      <Filter>InGame\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="IEnemy.h">
-      <Filter>InGame\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Block.h">
-      <Filter>InGame\Gimmick</Filter>
-    </ClInclude>
-    <ClInclude Include="Fort.h">
-      <Filter>InGame\Gimmick</Filter>
-    </ClInclude>
-    <ClInclude Include="FortTop.h">
-      <Filter>InGame\Gimmick</Filter>
-    </ClInclude>
-    <ClInclude Include="GroundMove.h">
-      <Filter>InGame\Gimmick</Filter>
-    </ClInclude>
-    <ClInclude Include="Shell.h">
-      <Filter>InGame\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Player_Head.h">
-      <Filter>InGame\Gimmick</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>InGame\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Bard.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="Fence.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="FenceHalf.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="Flower.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="FlowerBed.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="GoalPoint.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="Grass.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="Ground.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="GroundRoad.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="IBgActor.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="Stairs.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="Pebble.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="Pipe.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="Ring.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="Rock_Big.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="Shrub.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="Signboard.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="WoodenBox.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="Tree.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="Windmill.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="Wood_Road.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="Default.h">
-      <Filter>InGame\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Forward.h">
-      <Filter>InGame\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="GameCamera.h">
-      <Filter>InGame\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Fade.h">
-      <Filter>OutGame</Filter>
-    </ClInclude>
-    <ClInclude Include="HitBox.h">
-      <Filter>InGame\Bg</Filter>
-    </ClInclude>
-    <ClInclude Include="IActor.h">
-      <Filter>InGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>InGame</Filter>
-    </ClInclude>
     <ClInclude Include="EffectList.h" />
     <ClInclude Include="SoundList.h" />
+    <ClInclude Include="InGame\Bg\Bard.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\Fence.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\FenceHalf.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\Flower.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\FlowerBed.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\GoalPoint.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\Grass.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\Ground.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\GroundRoad.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\HitBox.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\IBgActor.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\Pebble.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\Pipe.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\Puddle.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\Ring.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\Rock_Big.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\Shrub.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\Signboard.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\Stairs.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\Tree.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\Windmill.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\Wood_Road.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Bg\WoodenBox.h">
+      <Filter>InGame\Bg</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Camera\Default.h">
+      <Filter>InGame\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Camera\Forward.h">
+      <Filter>InGame\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Camera\GameCamera.h">
+      <Filter>InGame\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Enemy\Enemy_Green.h">
+      <Filter>InGame\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Enemy\Enemy_Red.h">
+      <Filter>InGame\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Enemy\Enemy_Yellow.h">
+      <Filter>InGame\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Enemy\IEnemy.h">
+      <Filter>InGame\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Enemy\Shell.h">
+      <Filter>InGame\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Gimmick\Block.h">
+      <Filter>InGame\Gimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Gimmick\Fort.h">
+      <Filter>InGame\Gimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Gimmick\FortTop.h">
+      <Filter>InGame\Gimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Gimmick\GroundMove.h">
+      <Filter>InGame\Gimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Gimmick\Player_Head.h">
+      <Filter>InGame\Gimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Player\Player.h">
+      <Filter>InGame\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\Game.h">
+      <Filter>InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame\IActor.h">
+      <Filter>InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="OutGame\Fade.h">
+      <Filter>OutGame</Filter>
+    </ClInclude>
+    <ClInclude Include="OutGame\Title.h">
+      <Filter>OutGame</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

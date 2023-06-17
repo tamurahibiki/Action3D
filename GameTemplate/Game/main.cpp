@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "system/system.h"
-#include "Game.h"
-#include "Title.h"
-#include "Fade.h"
+#include "InGame/Game.h"
+#include "OutGame/Title.h"
+#include "OutGame/Fade.h"
 #include "SoundList.h"
 
 // K2EngineLowのグローバルアクセスポイント。
@@ -19,12 +19,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_k2EngineLow = new K2EngineLow();
 	g_k2EngineLow->Init(g_hWnd, FRAME_BUFFER_W, FRAME_BUFFER_H);
 	
-    
+	
 	g_postEffect.Init();
 	g_Light.Init();
 	g_bloom.Init();
+	
 	g_renderingEngine.Init();
-
+	g_ssr.Init();
 
 	NewGO <App::SoundList> (0, "soundlist");
 	NewGO<App::Title>(0,"title");

@@ -10,15 +10,12 @@ namespace nsK2EngineLow {
 		void Init(
 			const char* filePath,
 			bool shadowRecieve,
-			bool ssrRecieve,
 			AnimationClip* animationClips = nullptr,
 			int numAnimationClips = 0,
 			EnModelUpAxis enModelUpAxis = enModelUpAxisZ,
 			bool isShadowReciever=true,
 			int m_maxInstance = 1
 		);
-		void InitForwardRendering(ModelInitData& initData);
-
 		void SetCasterShadow(const bool castershadow)
 		{
 			m_isShadowCaster = castershadow;
@@ -31,9 +28,6 @@ namespace nsK2EngineLow {
 		SpriteInitData spriteInitData;
 		Sprite defferdLightinSpr;
 	public:
-		void InitModel(const char* filePath);
-		void modelUpdate();
-
 
 		ModelInitData transModelInitData;
 		Model sphereModel;
@@ -50,14 +44,11 @@ namespace nsK2EngineLow {
 			SetPosition({ x,y,z });
 		}
 
-		
-
 		void SetRotation(const Quaternion& rotation)
 		{
 			m_rotation = rotation;
 		}
 		
-
 		void SetScale(const Vector3& scale)
 		{
 			m_scale = scale;
@@ -162,8 +153,7 @@ namespace nsK2EngineLow {
 		/// <param name="instanceNo">インスタンス番号</param>
 		void RemoveInstance(int instanceNo);
 	private:
-		void InitInstancingDraw(int maxInstance);
-
+		
 		void InitSkeleton(const char* filePath);
 
 		void InitShadowModel(
@@ -175,10 +165,25 @@ namespace nsK2EngineLow {
 			RenderContext& rc,
 			const Matrix& lvpMatrix
 		);
+		void InitGBuffer(
+			const char* tkmFilePath,
+			EnModelUpAxis modelUpAxis
+		);
+		void OnRenderToGBuffer(
+			RenderContext& rc
+		);
+		void InitSsr(
+			const char* tkmFilePath,
+			EnModelUpAxis modelUpAxis
+		);
+		void OnRenderSsr(
+			RenderContext& rc
+		);
 
 	private:
 		Model						m_model;
 		Model                       m_shadowmodel;
+		Model                       m_gbuffer;
 		Model                       m_ssrmodel;
 		Model						m_forwardRenderModel;				// フォワードレンダリングの描画パスで描画されるモデル
 		Skeleton                    m_skeleton;

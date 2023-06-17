@@ -32,12 +32,10 @@ namespace nsK2EngineLow {
 			DXGI_FORMAT_R32G32B32A32_FLOAT,
 			DXGI_FORMAT_D32_FLOAT
 		);	
-
-		
 	}
 	void PostEffect::Render(RenderContext& rc)
 	{
-		
+
 		// レンダリングターゲットとして利用できるまで待つ
 		rc.WaitUntilToPossibleSetRenderTarget(g_postEffect.mainRenderTarget);
 
@@ -48,9 +46,11 @@ namespace nsK2EngineLow {
 		rc.ClearRenderTargetView(g_postEffect.mainRenderTarget);
 
 		g_engine->ExecuteRender();
-
+		
 		// レンダリングターゲットへの書き込み終了待ち
 		rc.WaitUntilFinishDrawingToRenderTarget(g_postEffect.mainRenderTarget);
+
+
 		// レンダリングターゲットとして利用できるまで待つ
 		rc.WaitUntilToPossibleSetRenderTarget(g_postEffect.luminnceRenderTarget);
 
@@ -59,22 +59,24 @@ namespace nsK2EngineLow {
 		// レンダリングターゲットをクリア
 		rc.ClearRenderTargetView(g_postEffect.luminnceRenderTarget);
 
-		g_bloom.LuminanceSpriteDraw(rc);
-
+ 		g_bloom.LuminanceSpriteDraw(rc);
 		// レンダリングターゲットへの書き込み終了待ち
 		rc.WaitUntilFinishDrawingToRenderTarget(g_postEffect.luminnceRenderTarget);
-
+		//水たまりの反射をするためには先に映り込み画像を作成するためのスプライトをドロー
+		g_ssr.SsrSpriteDraw(rc);
 		g_bloom.Blur(rc);
 		g_bloom.Render(rc, g_postEffect.mainRenderTarget);
+		//鏡のような綺麗な反射をするためには後から映り込み画像を作成するためのスプライトをドロー
+		//g_ssr.SsrSpriteDraw(rc);
 
+		g_ssr.Render(rc, g_postEffect.mainRenderTarget);
 		// step-5 画面に表示されるレンダリングターゲットに戻す
 		rc.SetRenderTarget(
 			g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
 			g_graphicsEngine->GetCurrentFrameBuffuerDSV()
 		);
-		g_bloom.Draw(rc);
+		g_bloom.Draw(rc);		
 		//ここでエフェクトドロー。
 		EffectEngine::GetInstance()->Draw();
-
 	}
 }

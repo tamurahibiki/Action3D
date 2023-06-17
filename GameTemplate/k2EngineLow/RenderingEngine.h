@@ -2,26 +2,21 @@
 #include "LightALL.h"
 #include "ShadowMapRender.h"
 #include "PostEffect.h"
-#include "Ssr.h"
 
 namespace nsK2EngineLow 
 {
-	
 	struct ModelRenderCB
 	{
-
 	public:
 		Light m_light;          // ライト
 		Matrix mlvp; // ライトビュープロジェクション行列。
 		float ObjectCameraLength; //ディザリングで必要なやつ。
-
 	};
 	class RenderingEngine : public Noncopyable
 	{
 	public:
 		void Init();
 		
-
 		void AddRenderObject(IRenderer* renderobj)
 		{
 			m_renderobject.push_back(renderobj);
@@ -48,16 +43,18 @@ namespace nsK2EngineLow
 		{
 			return m_modelRenderCB;
 		}
-
-		/*RenderTarget& GetDepthRenderTarget()
+		Texture& GetGBufferDepth()
 		{
-			return m_depthRT;
-		}*/
-
-		/*RenderTarget& GetmainRenderTarget()
+			return m_gBuffer[enGBufferDepth].GetRenderTargetTexture();
+		}
+		Texture& GetGBufferNormal()
 		{
-			return m_mainRT;
-		}*/
+			return m_gBuffer[enGBufferNormal].GetRenderTargetTexture();
+		}
+		Texture& GetGBufferMetallicSmooth()
+		{
+			return m_gBuffer[enGBufferMetallicSmooth].GetRenderTargetTexture();
+		}
 
 	private:
 		/// <summary>
@@ -69,20 +66,22 @@ namespace nsK2EngineLow
 		/// G-Bufferの作成を行っている。
 		/// </remark>
 		void RenderGBuffer(RenderContext& rc);
+
+		enum EnGBuffer
+		{
+			enGBufferDepth,	// 0
+			enGBufferNormal,// 1
+			enGBufferMetallicSmooth,//2
+			enGBufferNum,	// 3
+		};
+
 	private:
 		std::vector<IRenderer*> m_renderobject;
 		ShadowMapRender m_shadowMapRender;
 		PostEffect* m_postEffect = &g_postEffect;
 		ModelRenderCB m_modelRenderCB;
-		RenderTarget m_mainRT;
-		RenderTarget m_depthRT;
-		RenderTarget m_normalRT;
-
-		SpriteInitData spriteInitData;
-		Sprite g_bufferSpr;
+		RenderTarget m_gBuffer[enGBufferNum];
 	};
-
 	extern RenderingEngine g_renderingEngine;
-
 }
 

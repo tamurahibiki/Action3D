@@ -10,7 +10,6 @@ namespace nsK2EngineLow {
 		InitBlur();
 		InitFinalSprite();
 		InitSprite();
-
 	}
 	void Bloom::InitSprite()
 	{
@@ -20,7 +19,7 @@ namespace nsK2EngineLow {
 		spriteInitData.m_textures[0] = &g_postEffect.mainRenderTarget.GetRenderTargetTexture();
 		spriteInitData.m_width = 1600;
 		spriteInitData.m_height = 900;
-		//モノクロ用のシェーダーを指定する。
+		//シェーダーを指定する。
 		spriteInitData.m_fxFilePath = "Assets/shader/sprite.fx";
 		//初期化オブジェクトを使って、スプライトを初期化する。
 
@@ -113,5 +112,4 @@ namespace nsK2EngineLow {
 		//レンダリングターゲットへの書き込み終了待ち。
 		rc.WaitUntilFinishDrawingToRenderTarget(rt);
 	}
-
 }

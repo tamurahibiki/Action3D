@@ -42,7 +42,6 @@ namespace nsK2EngineLow {
 		for (auto& model : renderObjects)
 		{
 			model->OnRenderShadowMap(rc, m_lightCamera.GetViewProjectionMatrix());
-
 		}
 
 		rc.WaitUntilFinishDrawingToRenderTarget(shadowMap);

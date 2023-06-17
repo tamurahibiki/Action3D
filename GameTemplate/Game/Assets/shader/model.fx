@@ -88,13 +88,12 @@ struct SPSIn
     float3 depthInView : TEXCOORD5;
 };
 
-
 // ピクセルシェーダーからの出力
 struct SPSOut
 {
-    float4 color:SV_Target0;
-    float depth : SV_Target1; //深度
-    float3 normal : SV_Target2; // 法線
+    float depth : SV_Target0; //深度
+    float3 normal : SV_Target1; // 法線
+    float4 specular :SV_Target2;
 };
 
 ///////////////////////////////////////////
@@ -114,6 +113,7 @@ Texture2D<float4> g_normalMap : register(t1);
 Texture2D<float4> g_specularMap : register(t2);
 StructuredBuffer<float4x4> g_boneMatrix : register(t3); //ボーン行列。
 Texture2D<float4> g_shadowMap : register(t10); // シャドウマップ
+
 sampler g_sampler : register(s0); //サンプラステート。
 
 //ディザパターンの定義
@@ -163,18 +163,16 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
     {
         m = mWorld;
     }
-   
     psIn.pos = mul(m, vsIn.pos);
+    //頂点シェーダーからワールド座標を出力
     psIn.worldPos = psIn.pos;
-    psIn.pos = mul(mView, psIn.pos);
-    psIn.depthInView = psIn.pos.z;
-    psIn.pos = mul(mProj, psIn.pos);
+    psIn.pos = mul(mView, psIn.pos);//ワールド座標系からカメラ座標に変換
+    psIn.pos = mul(mProj, psIn.pos);//カメラ座標系からスクリーン座標系に変換
     // 頂点法線をピクセルシェーダーに渡す。
     psIn.normal = normalize(mul(m, vsIn.normal)); //法線を回転させる。
     psIn.tangent = normalize(mul(m, vsIn.tangent));
     psIn.biNormal = normalize(mul(m, vsIn.biNormal));
     psIn.uv = vsIn.uv;
-
     //カメラ空間の法線を求める。
     psIn.normalInView = normalize(mul(mView, psIn.normal));
 
@@ -219,7 +217,6 @@ float3 CalcLambertDiffuse(float3 lightDirection, float3 lightColor, float3 norma
 
     // 拡散反射光を計算する
     return lightColor * t;
-   
 }
 
 /// <summary>
@@ -254,7 +251,7 @@ float3 CalcLigFromDirectionLight(SPSIn psIn)
     float3 diffDirection = CalcLambertDiffuse(directionlight.dirDirection, directionlight.dirColor, psIn.normal);
     
     // ディレクションライトによるPhong鏡面反射光を計算する
- //   float3 specDirection = CalcPhongSpecular(directionlight.dirDirection, directionlight.dirColor, psIn.worldPos, psIn.normal);
+    //float3 specDirection = CalcPhongSpecular(directionlight.dirDirection, directionlight.dirColor, psIn.worldPos, psIn.normal);
 
     //ディレクションライトによるリムライトを計算する。
     //float3 rimDirection = CalcRimLight(psIn, directionlight.dirDirection, directionlight.dirColor);
@@ -279,7 +276,6 @@ float3 CalcLigFromPointLight(SPSIn psIn)
         pointlight.ptColor, // ライトのカラー
         psIn.normal // サーフェイスの法線
     );
-
 
     //減衰なしのリムライトを計算する。
     float3 rimPoint = CalcRimLight(psIn, ligDir, pointlight.ptColor);
@@ -368,7 +364,6 @@ float3 CalcLigFromSpotLight(SPSIn psIn)
     rimPoint *= affect;
 
     return diffPoint /*+ rimPoint*/; //specPoint+
-
 }
 //リムライトの計算。
 float3 CalcRimLight(SPSIn psIn, float3 direction, float3 color)
@@ -386,9 +381,7 @@ float3 CalcRimLight(SPSIn psIn, float3 direction, float3 color)
     float3 limcolor = limpower * color;
 
     return limcolor;
-
 }
-
 /// <summary>
 /// ピクセルシェーダーのエントリー関数。
 /// </summary>
@@ -403,8 +396,7 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive)
 
     float4 color = g_albedo.Sample(g_sampler, psIn.uv);
    
-    float3 normal = psIn.normal; 
-    //float3 normal = g_normalMap.Sample(g_sampler, psIn.normal);
+    float3 normal = psIn.normal;
 
     //法線マップからタンジェントスペースの法線をサンプリングする
     float3 localNormal = g_normalMap.Sample(g_sampler, psIn.uv).xyz;
@@ -413,16 +405,15 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive)
     localNormal = (localNormal - 0.5f) * 2.0f;
 
     //タンジェントスペースの法線をワールドスペースに変換する
-    normal = psIn.tangent * localNormal.x + psIn.biNormal * localNormal.y + normal * localNormal.z;
-
+    normal = psIn.tangent* localNormal.x + psIn.biNormal * localNormal.y + normal * localNormal.z;
+    
     // Phong鏡面反射を計算
-    // このサンプルでは鏡面反射の効果を分かりやすくするために10倍にしている
     float3 specLig = CalcPhongSpecular(normal, psIn.worldPos, directionlight.dirDirection);
     float3 dirLig2 = directionlight.dirDirection;
     dirLig2.xz *= -1.0f;
     specLig += CalcPhongSpecular(normal, psIn.worldPos, dirLig2);
     //スペキュラマップからスペキュラ反射の強さをサンプリング
-   float specPower = max(0.02f, g_specularMap.Sample(g_sampler, psIn.uv).r);
+    float specPower = max(0.02f, g_specularMap.Sample(g_sampler, psIn.uv).r);
 
    //鏡面反射の強さを鏡面反射光に乗算する
    specLig *= specPower;
@@ -467,7 +458,6 @@ float4 PSMainCore(SPSIn psIn, uniform bool shadowreceive)
    // 遮蔽されている
    float4 albedoColor = color;
 
-   
    albedoColor.xyz *= lig;
 
    if (shadowreceive == true)
@@ -491,34 +481,16 @@ float4 PSMainShadowReciever(SPSIn psIn) : SV_Target0
 /// <summary>
 /// モデル用のピクセルシェーダーのエントリーポイント
 /// </summary>
-SPSOut PSMainCoreG(SPSIn psIn)
+SPSOut PSMainColor(SPSIn psIn) : SV_Target0
 {
     // step-6 G-Bufferに出力
     SPSOut psOut;
 
-   // psOut.color = PSMainCore(psIn,false);
+    psOut.depth = psIn.pos.z;
 
-    psOut.depth = psIn.depthInView;
-    
     // 法線を出力
     psOut.normal = psIn.normal;
-    //psOut.normal = float4(psIn.normal.x, psIn.normal.y, psIn.normal.z, 1.0f);
-    //psOut.normal = g_normalMap.Sample(g_sampler, psIn.normal);
+
+    psOut.specular = g_specularMap.Sample(g_sampler, psIn.uv).a;
     return psOut;
 }
-
-
-//SPSOut PSMainShadowRecieverG(SPSIn psIn)
-//{
-//    SPSOut psOut;
-//
-//   // psOut.color = PSMainCore(psIn, true);
-//
-//    psOut.depth = psIn.depthInView;
-//
-//    // 法線を出力
-//    psOut.normal = psIn.normal;
-//    //psOut.normal = float4(psIn.normal.x, psIn.normal.y, psIn.normal.z, 1.0f);
-//    //psOut.normal = g_normalMap.Sample(g_sampler, psIn.normal);
-//    return psOut;
-//}

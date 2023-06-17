@@ -18,6 +18,14 @@ namespace nsK2EngineLow {
 		{
 
 		}
+
+		/// <summary>
+		/// G-Buffer描画パスから呼ばれる処理。
+		/// </summary>
+		virtual void OnRenderToGBuffer(RenderContext& rc)
+		{
+
+		}
 		/// <summary>
 		/// フォント描画。
 		/// </summary>
