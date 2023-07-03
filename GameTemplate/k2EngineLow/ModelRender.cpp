@@ -2,14 +2,8 @@
 #include "ModelRender.h"
 
 namespace nsK2EngineLow {
-	ModelRender::ModelRender()
-	{
-
-	}
-	ModelRender::~ModelRender()
-	{
-
-	}
+	ModelRender::ModelRender(){}
+	ModelRender::~ModelRender(){}
 
 	void ModelRender::InitSkeleton(const char* filePath)
 	{
@@ -79,8 +73,7 @@ namespace nsK2EngineLow {
 		initData.m_expandShaderResoruceView[1] = &g_renderingEngine.GetGBufferDepth();
 		initData.m_expandShaderResoruceView[2] = &g_renderingEngine.GetGBufferNormal();
 		initData.m_expandShaderResoruceView[3] = &g_renderingEngine.GetGBufferMetallicSmooth();
-		initData.m_expandShaderResoruceView[4] = &g_ssr.GetResultTexture();
-
+		
 		initData.m_tkmFilePath = filePath;
 		
 		m_enFbxUpAxis = enModelUpAxis;
@@ -88,7 +81,6 @@ namespace nsK2EngineLow {
 		m_model.Init(initData);
 		InitShadowModel(filePath, m_enFbxUpAxis);
 		InitGBuffer(filePath, m_enFbxUpAxis);
-		InitSsr(filePath, m_enFbxUpAxis);
 	}
 
 	void ModelRender::UpdateInstancingData(int instanceNo, const Vector3& pos, const Quaternion& rot, const Vector3& scale)
@@ -112,11 +104,9 @@ namespace nsK2EngineLow {
 
 	void ModelRender::Update()
 	{
-		
 		m_model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 		m_shadowmodel.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 		m_gbuffer.UpdateWorldMatrix(m_position, m_rotation, m_scale);
-		m_ssrmodel.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 		if (m_skeleton.IsInited()) {
 			//スケルトンを更新。
 			m_skeleton.Update(m_model.GetWorldMatrix());
@@ -130,8 +120,6 @@ namespace nsK2EngineLow {
 	{
 		m_model.Draw(rc);
 		
-		//sphereModel.Draw(rc);
-
 		g_renderingEngine.AddRenderObject(this);
 	}
 	void ModelRender::RemoveInstance(int instanceNo)
@@ -188,23 +176,5 @@ namespace nsK2EngineLow {
 	void ModelRender::OnRenderToGBuffer(RenderContext& rc)
 	{
 		m_gbuffer.Draw(rc);
-	}
-	void ModelRender::InitSsr(const char* tkmFilePath, EnModelUpAxis modelUpAxis)
-	{
-		ModelInitData SsrInitData;
-		SsrInitData.m_fxFilePath = "Assets/shader/ssr.fx";
-		SsrInitData.m_tkmFilePath = tkmFilePath;
-
-		SsrInitData.m_psEntryPointFunc = "PSFinal";
-
-		SsrInitData.m_colorBufferFormat[0] = 
-		g_postEffect.mainRenderTarget.GetColorBufferFormat(),
-		SsrInitData.m_modelUpAxis = modelUpAxis;
-
-		m_ssrmodel.Init(SsrInitData);
-	}
-	void ModelRender::OnRenderSsr(RenderContext& rc)
-	{
-		m_ssrmodel.Draw(rc);
 	}
 }

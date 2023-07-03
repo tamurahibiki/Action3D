@@ -54,9 +54,9 @@ namespace nsK2EngineLow
 	{
 		RenderTarget* rts[]
 		{
-			&m_gBuffer[enGBufferDepth],         // 0番目のレンダリングターゲット
-			&m_gBuffer[enGBufferNormal],         // 1番目のレンダリングターゲット
-			&m_gBuffer[enGBufferMetallicSmooth]
+			&m_gBuffer[enGBufferDepth],        // 0番目のレンダリングターゲット
+			&m_gBuffer[enGBufferNormal],       // 1番目のレンダリングターゲット
+			&m_gBuffer[enGBufferMetallicSmooth]// 2番目のレンダリングターゲット
 		};
 		
 		rc.WaitUntilToPossibleSetRenderTargets(3, rts);
@@ -77,23 +77,25 @@ namespace nsK2EngineLow
 		m_modelRenderCB.mlvp = GetLightCamera().GetViewProjectionMatrix();
 		
 		// ゲームオブジェクトマネージャーの描画処理を呼び出す。
-		g_engine->ExecuteRender();
 		
+        g_engine->ExecuteRender();
 		ShadowMapDraw(rc);
-
-		RenderGBuffer(rc);
 		
+		RenderGBuffer(rc);
 		m_postEffect->Render(rc);
-	
+
+
+		
+		
 		Render2DDraw(rc);
 		m_renderobject.clear();
 	}
 	void RenderingEngine::Init()
 	{
-		m_postEffect = &g_postEffect;
 		m_shadowMapRender.Init();
 		CreateGBuffer();
 		m_modelRenderCB.m_light = g_Light.GetLight();
 		m_modelRenderCB.mlvp = GetLightCamera().GetViewProjectionMatrix();
+		
 	}
 }

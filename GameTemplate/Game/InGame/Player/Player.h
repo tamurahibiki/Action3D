@@ -382,7 +382,5 @@ namespace App {
 		/// </summary>
 		/// <returns>•œŠˆˆ—‚ª‰Â”\‚È‚çtrueB</returns>
 		bool ReTry = true;
-
-		bool RainRotation = true;
 	};
 }

@@ -172,19 +172,11 @@ namespace nsK2EngineLow {
 		void OnRenderToGBuffer(
 			RenderContext& rc
 		);
-		void InitSsr(
-			const char* tkmFilePath,
-			EnModelUpAxis modelUpAxis
-		);
-		void OnRenderSsr(
-			RenderContext& rc
-		);
 
 	private:
 		Model						m_model;
 		Model                       m_shadowmodel;
 		Model                       m_gbuffer;
-		Model                       m_ssrmodel;
 		Model						m_forwardRenderModel;				// フォワードレンダリングの描画パスで描画されるモデル
 		Skeleton                    m_skeleton;
 		float                       m_animationSpeed = 1.0f;

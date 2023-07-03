@@ -54,6 +54,6 @@ namespace App {
 		/// ‰H‚Î‚½‚­Œø‰Ê‰¹‚ğÄ¶‚·‚éB
 		/// </summary>
 		/// <returns>‰H‚Î‚½‚­Œø‰Ê‰¹‚ğÄ¶‚·‚é‚È‚çtrueB</returns>
-		bool                  m_moveSound = true;
+		bool                  MoveSound = true;
 	};
 }

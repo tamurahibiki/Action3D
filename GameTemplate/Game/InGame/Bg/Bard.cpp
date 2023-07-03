@@ -96,12 +96,12 @@ namespace App {
 	void Bard::ProcessMoveStateTransition()
 	{
 		//羽ばたく音を一度だけ再生する。
-		if (m_moveSound == true) {
+		if (MoveSound == true) {
 			SoundSource* se = NewGO<SoundSource>(0);
 			se->Init(m_soundlist->BARDMOVE);
 			se->Play(false);//ループ再生をしない。
 			se->SetVolume(0.15f);//ボリューム
-			m_moveSound = false;
+			MoveSound = false;
 		}
 		//移動処理。
 		Move();

@@ -52,7 +52,6 @@ namespace nsK2EngineLow {
 			SpriteInitData initData;
 			initData.m_textures[0] = &g_postEffect.mainRenderTarget.GetRenderTargetTexture();
 			initData.m_textures[1] = &m_blur.GetBokeTexture();
-			//initData.m_textures[1] = &g_renderingEngine.GetGBufferAlbed();
 
 			// 解像度はmainRenderTargetの幅と高さ
 			initData.m_width = g_postEffect.mainRenderTarget.GetWidth();
@@ -108,9 +107,5 @@ namespace nsK2EngineLow {
 		m_finalSprite.Draw(rc);
 		// レンダリングターゲットへの書き込み終了待ち
 		rc.WaitUntilFinishDrawingToRenderTarget(m_finalRt);
-		rc.SetRenderTarget(
-			g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
-			g_graphicsEngine->GetCurrentFrameBuffuerDSV()
-		);
 	}
 }

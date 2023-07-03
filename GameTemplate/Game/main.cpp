@@ -23,9 +23,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_postEffect.Init();
 	g_Light.Init();
 	g_bloom.Init();
-	
 	g_renderingEngine.Init();
 	g_ssr.Init();
+	g_fxaa.Init();
+	
 
 	NewGO <App::SoundList> (0, "soundlist");
 	NewGO<App::Title>(0,"title");
@@ -44,13 +45,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		// デバッグ描画処理を実行する。
 		g_k2EngineLow->DebubDrawWorld();
 
-
 		// フレームの終了時に呼び出す必要がある処理を実行。
 		g_k2EngineLow->EndFrame();
 	}
-	
 	delete g_k2EngineLow;
-
 	return 0;
 }
 

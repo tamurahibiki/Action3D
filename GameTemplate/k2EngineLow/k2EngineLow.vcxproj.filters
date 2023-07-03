@@ -237,6 +237,7 @@
     <ClCompile Include="SkyCube.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="Ssr.cpp" />
+    <ClCompile Include="Fxaa.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="k2EngineLowPreCompile.h" />
@@ -520,6 +521,7 @@
     <ClInclude Include="SkyCube.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="Ssr.h" />
+    <ClInclude Include="Fxaa.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">

@@ -138,7 +138,6 @@ namespace nsK2EngineLow {
 				m_pivot);
 		}
 
-
 		void OnRenderSprite2D(RenderContext& rc) override
 		{
 			if (m_isInit == false)

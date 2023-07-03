@@ -1,14 +1,14 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "InGame/Game.h"
+#include "InGame/Bg/GoalPoint.h"
 #include "InGame/Camera/GameCamera.h"
-#include "Ingame/Game.h"
+#include "InGame/Gimmick/Fort.h"
+#include "InGame/Gimmick/FortTop.h"
 #include "graphics/effect/EffectEmitter.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
 #include "CollisionObject.h"
-#include "InGame/Gimmick/Fort.h"
-#include "InGame/Gimmick/FortTop.h"
-#include "InGame/Bg/GoalPoint.h"
 #include "EffectList.h"
 #include "SoundList.h"
 
@@ -348,19 +348,7 @@ void Player::Move()
 		//空中移動処理。
 		Move_Air();
 	}
-	//連続で踏みつけ数が2なら
-	if (Enemy_JunpCount == 2)
-	{
-		//効果音を再生する。
-		if (Enemy_JumpCountSE == true)
-		{
-			/*m_bgm = NewGO<SoundSource>(0);
-			m_bgm->Init(19);
-			m_bgm->Play(false);
-			m_bgm->SetVolume(0.5f);
-			Enemy_JumpCountSE = false;*/
-		}
-	}
+	
 	//キャラクターコントローラーを使って座標を移動させる。
 	m_position = m_charaCon.Execute(m_moveSpeed, 5.0f / 60.0f);
 	m_lastFrameMoveDirection = m_moveSpeed;

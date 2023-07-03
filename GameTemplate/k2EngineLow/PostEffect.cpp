@@ -46,6 +46,7 @@ namespace nsK2EngineLow {
 		rc.ClearRenderTargetView(g_postEffect.mainRenderTarget);
 
 		g_engine->ExecuteRender();
+
 		
 		// レンダリングターゲットへの書き込み終了待ち
 		rc.WaitUntilFinishDrawingToRenderTarget(g_postEffect.mainRenderTarget);
@@ -58,24 +59,26 @@ namespace nsK2EngineLow {
 		rc.SetRenderTarget(g_postEffect.luminnceRenderTarget);
 		// レンダリングターゲットをクリア
 		rc.ClearRenderTargetView(g_postEffect.luminnceRenderTarget);
-
+		
  		g_bloom.LuminanceSpriteDraw(rc);
 		// レンダリングターゲットへの書き込み終了待ち
 		rc.WaitUntilFinishDrawingToRenderTarget(g_postEffect.luminnceRenderTarget);
+		
+		
 		//水たまりの反射をするためには先に映り込み画像を作成するためのスプライトをドロー
 		g_ssr.SsrSpriteDraw(rc);
 		g_bloom.Blur(rc);
 		g_bloom.Render(rc, g_postEffect.mainRenderTarget);
-		//鏡のような綺麗な反射をするためには後から映り込み画像を作成するためのスプライトをドロー
-		//g_ssr.SsrSpriteDraw(rc);
-
 		g_ssr.Render(rc, g_postEffect.mainRenderTarget);
+		g_fxaa.Render(rc, g_postEffect.mainRenderTarget);
+
 		// step-5 画面に表示されるレンダリングターゲットに戻す
 		rc.SetRenderTarget(
 			g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
 			g_graphicsEngine->GetCurrentFrameBuffuerDSV()
 		);
 		g_bloom.Draw(rc);		
+
 		//ここでエフェクトドロー。
 		EffectEngine::GetInstance()->Draw();
 	}
